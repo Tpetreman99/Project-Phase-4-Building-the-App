@@ -38,8 +38,8 @@ export default function GameBoard() {
 
 const styles = StyleSheet.create({
   board: {
-    width: 340,
-    height: 340,
+    width: 330,
+    height: 330,
     backgroundColor: "#393939",
     padding: 6
   },
