@@ -1,11 +1,12 @@
 import { Text, View, StyleSheet, Pressable } from "react-native";
 import GradientBackground from "../components/GradientBackground";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { router, useRouter } from "expo-router";
 
 export default function Index() {
   return (
     <GradientBackground>
-      <View style={s.container}>
+      <SafeAreaView style={s.container}>
         <View style={s.titleBlock}>
           <Text style={s.appName}>Pawn</Text>
           <Text style={s.toText}>to</Text>
@@ -15,7 +16,7 @@ export default function Index() {
         <View style={s.buttonSelection}>
           <Pressable 
           style={s.menuButton}
-          onPress={() => router.push('/game')}>
+          onPress={() => router.push('/new-game')}>
             <Text style={s.menuButtonText}>New Game</Text>
           </Pressable>
 
@@ -38,7 +39,7 @@ export default function Index() {
             <Text style={s.menuButtonText}>Settings</Text>
           </Pressable>
         </View>
-      </View>
+      </SafeAreaView>
     </GradientBackground>
   )
 }
@@ -48,17 +49,15 @@ const s = StyleSheet.create({
 
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingTop: 150,
-    paddingBottom: 180,
+    alignItems: "center",
+    justifyContent: "center",
     paddingHorizontal: 30,
   },
 
   // App name styling
   titleBlock: {
     alignItems: 'center',
-    marginTop: 12
+    marginBottom: 100
   },
 
   appName: {
