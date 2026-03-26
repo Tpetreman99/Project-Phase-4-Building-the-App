@@ -157,9 +157,6 @@ export default function GameBoard() {
       <Text style={styles.helperText}>
         Tap one of your pieces to see legal moves. Tap a highlighted square to move.
       </Text>
-      <Text style={styles.helperText}>
-        Suggested move here is only a simple legal-move hint. For a true best move, use a chess engine like Stockfish.
-      </Text>
     </View>
   );
 }
