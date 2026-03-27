@@ -59,6 +59,7 @@ function Tile({
 export default function GameBoard() {
   const [game, setGame] = useState(() => new Chess());
   const [selectedSquare, setSelectedSquare] = useState<Square | null>(null);
+  const [isPaused, setIsPaused] = useState(true);
 
   const legalMoves = useMemo(() => {
     if (!selectedSquare) return [] as MoveSquare[];
@@ -88,9 +89,10 @@ export default function GameBoard() {
     const fileIndex = FILES.indexOf(square[0] as (typeof FILES)[number]);
     const pieceOnSquare = board[rankIndex][fileIndex];
     const currentTurn = game.turn();
+    const isOwnPiece = !!pieceOnSquare && pieceOnSquare.color === currentTurn;
 
     if (!selectedSquare) {
-      if (pieceOnSquare && pieceOnSquare.color === currentTurn) {
+      if (isOwnPiece) {
         setSelectedSquare(square);
       }
       return;
@@ -101,21 +103,27 @@ export default function GameBoard() {
       return;
     }
 
-    const moveAttempt = game.move({
-      from: selectedSquare,
-      to: square,
-      promotion: "q",
-    });
-
-    if (moveAttempt) {
-      setGame(new Chess(game.fen()));
-      setSelectedSquare(null);
+    if (isOwnPiece) {
+      setSelectedSquare(square);
       return;
     }
 
-    if (pieceOnSquare && pieceOnSquare.color === currentTurn) {
-      setSelectedSquare(square);
-      return;
+    const nextGame = new Chess(game.fen());
+
+    try {
+      const moveAttempt = nextGame.move({
+        from: selectedSquare,
+        to: square,
+        promotion: "q",
+      });
+
+      if (moveAttempt) {
+        setGame(nextGame);
+        setSelectedSquare(null);
+        return;
+      }
+    } catch {
+      // Ignore invalid move attempts and clear the selection below.
     }
 
     setSelectedSquare(null);
@@ -123,6 +131,7 @@ export default function GameBoard() {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.statusText}>Turn: {game.turn() === "w" ? "White" : "Black"}</Text>
       <View style={styles.board}>
         {RANKS.map((rank, rowIndex) => (
           <View key={rank} style={styles.row}>
@@ -134,7 +143,9 @@ export default function GameBoard() {
               const isLegalTarget = legalMoves.some((move) => move.to === square);
               const isSelected = selectedSquare === square;
               const isSuggested =
-                suggestedMove?.from === square || suggestedMove?.to === square;
+                !!selectedSquare &&
+                suggestedMove?.from === selectedSquare &&
+                suggestedMove?.to === square;
 
               return (
                 <Tile
@@ -151,12 +162,22 @@ export default function GameBoard() {
           </View>
         ))}
       </View>
+      <View style={styles.controlsBar}>
+        <Pressable style={styles.sideControlButton}>
+          <Text style={styles.controlIcon}>‹</Text>
+        </Pressable>
 
-      <Text style={styles.statusText}>Turn: {game.turn() === "w" ? "White" : "Black"}</Text>
-      <Text style={styles.statusText}>FEN: {game.fen()}</Text>
-      <Text style={styles.helperText}>
-        Tap one of your pieces to see legal moves. Tap a highlighted square to move.
-      </Text>
+        <Pressable
+          style={styles.pauseControlButton}
+          onPress={() => setIsPaused((prev) => !prev)}
+        >
+          <Text style={styles.pauseIcon}>{isPaused ? "❚❚" : "▶"}</Text>
+        </Pressable>
+
+        <Pressable style={styles.sideControlButton}>
+          <Text style={styles.controlIcon}>›</Text>
+        </Pressable>
+      </View>
     </View>
   );
 }
@@ -172,6 +193,47 @@ const styles = StyleSheet.create({
     backgroundColor: "#393939",
     padding: 6,
   },
+  controlsBar: {
+    width: 300,
+    height: 94,
+    borderRadius: 47,
+    backgroundColor: "#06111A",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.08)",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 18,
+  },
+  sideControlButton: {
+    width: 66,
+    height: 66,
+    borderRadius: 33,
+    backgroundColor: "rgba(255,255,255,0.09)",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  pauseControlButton: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: "#34D1A1",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: -3,
+  },
+  controlIcon: {
+    fontSize: 40,
+    color: "#F2F5F7",
+    fontWeight: "400",
+    lineHeight: 42,
+  },
+  pauseIcon: {
+    fontSize: 34,
+    color: "#F2F5F7",
+    fontWeight: "700",
+    lineHeight: 36,
+  },
   row: {
     flex: 1,
     flexDirection: "row",
@@ -184,11 +246,11 @@ const styles = StyleSheet.create({
   },
   selectedTile: {
     borderWidth: 3,
-    borderColor: "#FFD166",
+    borderColor: "#2F9D94",
   },
   suggestedTile: {
     borderWidth: 2,
-    borderColor: "#5DA9E9",
+    borderColor: "27E95B",
   },
   legalMoveDot: {
     position: "absolute",
@@ -201,7 +263,7 @@ const styles = StyleSheet.create({
     fontSize: 28,
   },
   statusText: {
-    fontSize: 14,
+    fontSize: 30,
     fontWeight: "600",
   },
   helperText: {
