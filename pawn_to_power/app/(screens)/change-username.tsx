@@ -2,7 +2,7 @@ import { Text, View, StyleSheet, Pressable, TextInput } from "react-native";
 import GradientBackground from "../components/GradientBackground";
 import { router } from "expo-router";
 import { useState } from "react";
-import { useUser } from "../context/UserContext";
+import { useUser } from "../../context/UserContext";
 
 export default function ChangeUsername() {
   const [username, setUsername] = useState("");

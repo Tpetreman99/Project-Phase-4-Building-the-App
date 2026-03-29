@@ -2,7 +2,7 @@ import { Text, View, StyleSheet, Pressable } from "react-native";
 import GradientBackground from "../components/GradientBackground";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
-import { useUser } from "../context/UserContext";
+import { useUser } from "../../context/UserContext";
 
 export default function Index() {
   const { username } = useUser();

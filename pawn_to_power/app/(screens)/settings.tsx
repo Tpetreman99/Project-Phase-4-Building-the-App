@@ -2,19 +2,25 @@ import { Text, View, StyleSheet, Pressable } from "react-native";
 import GradientBackground from "../components/GradientBackground";
 import { router } from "expo-router";
 import { useState } from "react";
+import { useUser } from "../../context/UserContext";
 
 export default function Settings() {
   const [musicEnabled, setMusicEnabled] = useState(false);
   const [hapticEnabled, setHapticEnabled] = useState(false);
+  const { username } = useUser();
 
   return (
     <GradientBackground>
       <View style={s.container}>
+
         <View style={s.titleBlock}>
           <Text style={s.TitleScreen}>Settings</Text>
         </View>
 
-        <View style={s.buttonSelection}>
+        {/* Username section */}
+        <View style={s.section}>
+          <Text style={s.usernameLabel}>Username:</Text>
+          <Text style={s.usernameValue}>[{username ? username : "Player"}]</Text>
           <Pressable
             onPress={() => router.push('/change-username')}
             style={({ pressed }) => [s.menuButton, pressed && s.menuButtonPressed]}>
@@ -22,47 +28,60 @@ export default function Settings() {
               <Text style={s.menuButtonText}>Change Username</Text>
             </View>
           </Pressable>
-
-          <Pressable
-            onPress={() => setHapticEnabled((prev) => !prev)}
-            style={({ pressed }) => [
-              s.menuButton,
-              { borderColor: hapticEnabled ? 'rgba(0, 200, 100, 0.5)' : 'rgba(255, 80, 80, 0.5)' },
-              pressed && s.menuButtonPressed
-            ]}>
-            <View style={[
-              s.glassInner,
-              { backgroundColor: hapticEnabled ? 'rgba(0, 200, 100, 0.08)' : 'rgba(255, 80, 80, 0.08)' }
-            ]}>
-              <View style={s.buttonRow}>
-                <View style={[s.dot, { backgroundColor: hapticEnabled ? "#00c864" : "#ff5050" }]} />
-                <Text style={s.menuButtonText}>
-                  {hapticEnabled ? "Haptic Enabled" : "Haptic Disabled"}
-                </Text>
-              </View>
-            </View>
-          </Pressable>
-
-          <Pressable
-            onPress={() => setMusicEnabled((prev) => !prev)}
-            style={({ pressed }) => [
-              s.menuButton,
-              { borderColor: musicEnabled ? 'rgba(0, 200, 100, 0.5)' : 'rgba(255, 80, 80, 0.5)' },
-              pressed && s.menuButtonPressed
-            ]}>
-            <View style={[
-              s.glassInner,
-              { backgroundColor: musicEnabled ? 'rgba(0, 200, 100, 0.08)' : 'rgba(255, 80, 80, 0.08)' }
-            ]}>
-              <View style={s.buttonRow}>
-                <View style={[s.dot, { backgroundColor: musicEnabled ? "#00c864" : "#ff5050" }]} />
-                <Text style={s.menuButtonText}>
-                  {musicEnabled ? "Music Enabled" : "Music Disabled"}
-                </Text>
-              </View>
-            </View>
-          </Pressable>
         </View>
+
+        {/* Preferences section */}
+        <View style={s.section}>
+          <Text style={s.sectionTitle}>Preferences</Text>
+          <View style={s.buttonSelection}>
+            <Pressable
+              onPress={() => setHapticEnabled((prev) => !prev)}
+              style={({ pressed }) => [
+                s.menuButton,
+                { borderColor: hapticEnabled ? 'rgba(0, 200, 100, 0.5)' : 'rgba(255, 80, 80, 0.5)' },
+                pressed && s.menuButtonPressed
+              ]}>
+              <View style={[
+                s.glassInner,
+                { backgroundColor: hapticEnabled ? 'rgba(0, 200, 100, 0.08)' : 'rgba(255, 80, 80, 0.08)' }
+              ]}>
+                <View style={s.buttonRow}>
+                  <Text style={s.menuButtonText}>Haptic</Text>
+                  <View style={[s.dot, { backgroundColor: hapticEnabled ? "#00c864" : "#ff5050" }]} />
+                  <Text style={s.menuButtonText}>{hapticEnabled ? "ON" : "OFF"}</Text>
+                </View>
+              </View>
+            </Pressable>
+
+            <Pressable
+              onPress={() => setMusicEnabled((prev) => !prev)}
+              style={({ pressed }) => [
+                s.menuButton,
+                { borderColor: musicEnabled ? 'rgba(0, 200, 100, 0.5)' : 'rgba(255, 80, 80, 0.5)' },
+                pressed && s.menuButtonPressed
+              ]}>
+              <View style={[
+                s.glassInner,
+                { backgroundColor: musicEnabled ? 'rgba(0, 200, 100, 0.08)' : 'rgba(255, 80, 80, 0.08)' }
+              ]}>
+                <View style={s.buttonRow}>
+                  <Text style={s.menuButtonText}>Music</Text>
+                  <View style={[s.dot, { backgroundColor: musicEnabled ? "#00c864" : "#ff5050" }]} />
+                  <Text style={s.menuButtonText}>{musicEnabled ? "ON" : "OFF"}</Text>
+                </View>
+              </View>
+            </Pressable>
+          </View>
+        </View>
+
+        {/* Reset Stats */}
+        <Pressable
+          style={({ pressed }) => [s.menuButton, s.resetButton, pressed && s.menuButtonPressed]}>
+          <View style={s.glassInner}>
+            <Text style={s.resetButtonText}>Reset Stats</Text>
+          </View>
+        </Pressable>
+
       </View>
     </GradientBackground>
   );
@@ -75,13 +94,12 @@ const s = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingTop: 150,
-    paddingBottom: 180,
+    paddingBottom: 60,
     paddingHorizontal: 40,
   },
 
   titleBlock: {
     alignItems: 'center',
-    marginTop: 12,
   },
 
   TitleScreen: {
@@ -90,7 +108,34 @@ const s = StyleSheet.create({
     color: '#F2F4F8',
   },
 
-  // Outer shell — dark tinted glass base + white border
+  section: {
+    width: '100%',
+    alignItems: 'center',
+    gap: 10,
+  },
+
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: '600',
+    color: 'rgba(242, 244, 248, 0.75)',
+    marginBottom: 4,
+    letterSpacing: 0.3,
+  },
+
+  usernameLabel: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: 'rgba(242, 244, 248, 0.75)',
+    letterSpacing: 0.3,
+  },
+
+  usernameValue: {
+    fontSize: 22,
+    fontWeight: '700',
+    color: '#F2F4F8',
+    letterSpacing: 0.4,
+  },
+
   menuButton: {
     width: '100%',
     borderRadius: 16,
@@ -110,7 +155,6 @@ const s = StyleSheet.create({
     borderColor: 'rgba(255, 255, 255, 0.5)',
   },
 
-  // Inner layer — top highlight simulates inner glass shine
   glassInner: {
     paddingVertical: 14,
     paddingHorizontal: 20,
@@ -124,7 +168,14 @@ const s = StyleSheet.create({
   buttonRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10,
+    justifyContent: 'space-between',
+    width: '100%',
+  },
+
+  rowRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
   },
 
   dot: {
@@ -143,6 +194,17 @@ const s = StyleSheet.create({
   buttonSelection: {
     width: '100%',
     gap: 10,
+  },
+
+  resetButton: {
+    borderColor: 'rgba(255, 80, 80, 0.3)',
+  },
+
+  resetButtonText: {
+    color: 'rgba(255, 100, 100, 0.9)',
+    fontSize: 20,
+    fontWeight: '600',
+    letterSpacing: 0.4,
   },
 
 });
