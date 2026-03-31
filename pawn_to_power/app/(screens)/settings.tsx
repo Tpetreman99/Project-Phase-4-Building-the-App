@@ -20,7 +20,7 @@ export default function Settings() {
         {/* Username section */}
         <View style={s.section}>
           <Text style={s.usernameLabel}>Username:</Text>
-          <Text style={s.usernameValue}>[{username ? username : "Player"}]</Text>
+          <Text style={s.usernameValue}>{username ? username : "Player"}</Text>
           <Pressable
             onPress={() => router.push('/change-username')}
             style={({ pressed }) => [s.menuButton, pressed && s.menuButtonPressed]}>
@@ -73,15 +73,6 @@ export default function Settings() {
             </Pressable>
           </View>
         </View>
-
-        {/* Reset Stats */}
-        <Pressable
-          style={({ pressed }) => [s.menuButton, s.resetButton, pressed && s.menuButtonPressed]}>
-          <View style={s.glassInner}>
-            <Text style={s.resetButtonText}>Reset Stats</Text>
-          </View>
-        </Pressable>
-
       </View>
     </GradientBackground>
   );
