@@ -51,7 +51,7 @@ function Tile({
       ]}
     >
       {isLegalTarget ? <View style={styles.legalMoveDot} /> : null}
-      {piece ? <Image source={piece} style={styles.}/> : null}
+      {piece ? <Image source={piece} style={styles.boardPiece}/> : null}
     </Pressable>
   );
 }
@@ -274,6 +274,7 @@ const styles = StyleSheet.create({
   },
 
   boardPiece: {
-    
+    width: 20,
+    height: 20,
   }
 });
