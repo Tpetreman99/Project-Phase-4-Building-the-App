@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { View, StyleSheet, Pressable, Text } from "react-native";
+import { View, StyleSheet, Pressable, Text, Image } from "react-native";
 import { Chess, Square } from "chess.js";
 
 type MoveSquare = {
@@ -11,18 +11,18 @@ const FILES = ["a", "b", "c", "d", "e", "f", "g", "h"] as const;
 const RANKS = [8, 7, 6, 5, 4, 3, 2, 1] as const;
 
 const PIECE_SYMBOLS: Record<string, string> = {
-  wp: "♙",
-  wn: "♘",
-  wb: "♗",
-  wr: "♖",
-  wq: "♕",
-  wk: "♔",
-  bp: "♟",
-  bn: "♞",
-  bb: "♝",
-  br: "♜",
-  bq: "♛",
-  bk: "♚",
+  wp: require('../../assets/pieces/wp.png'),
+  wn: require('../../assets/pieces/wn.png'),
+  wb: require('../../assets/pieces/wb.png'),
+  wr: require('../../assets/pieces/wr.png'),
+  wq: require('../../assets/pieces/wq.png'),
+  wk: require('../../assets/pieces/wk.png'),
+  bp: require('../../assets/pieces/bp.png'),
+  bn: require('../../assets/pieces/bn.png'),
+  bb: require('../../assets/pieces/bb.png'),
+  br: require('../../assets/pieces/br.png'),
+  bq: require('../../assets/pieces/bq.png'),
+  bk: require('../../assets/pieces/bk.png'),
 };
 
 function Tile({
@@ -34,7 +34,7 @@ function Tile({
   onPress,
 }: {
   isDark: boolean;
-  piece?: string;
+  piece?: import("react-native").ImageSourcePropType;
   isSelected: boolean;
   isLegalTarget: boolean;
   isSuggested: boolean;
@@ -51,7 +51,7 @@ function Tile({
       ]}
     >
       {isLegalTarget ? <View style={styles.legalMoveDot} /> : null}
-      {piece ? <Text style={styles.pieceText}>{piece}</Text> : null}
+      {piece ? <Image source={piece} style={styles.}/> : null}
     </Pressable>
   );
 }
@@ -272,4 +272,8 @@ const styles = StyleSheet.create({
     maxWidth: 340,
     color: "#444",
   },
+
+  boardPiece: {
+    
+  }
 });
