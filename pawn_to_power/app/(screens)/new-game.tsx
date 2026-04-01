@@ -1,10 +1,4 @@
-import {
-  Text,
-  View,
-  StyleSheet,
-  Pressable,
-  TouchableOpacity,
-} from "react-native";
+import { Text, View, StyleSheet, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import GradientBackground from "../components/GradientBackground";
 import { Entypo, FontAwesome5 } from "@expo/vector-icons";
@@ -23,34 +17,45 @@ export default function NewGame() {
       <SafeAreaView style={s.container}>
         <View style={s.header}>
           <Pressable onPress={() => router.back()} style={s.backButton}>
-            <Entypo name="chevron-left" size={28} color="white" />
+            <Entypo name="chevron-left" size={30} color="white" />
           </Pressable>
-
-          <Text style={s.title}>New Game</Text>
-
-          <View style={s.headerSpacer} />
         </View>
 
-        <View style={s.content}>
+        <View style={s.titleBlock}>
+          <Text style={s.title}>New Game</Text>
           <Text style={s.playAs}>Play as</Text>
+        </View>
 
-          <TouchableOpacity
+        <View style={s.buttonBox}>
+          <Pressable
             onPress={() => handleSelectSide("white")}
-            style={s.menuButton}
-            activeOpacity={0.8}
+            style={({ pressed }) => [
+              s.menuButton,
+              pressed && s.menuButtonPressed,
+            ]}
           >
-            <Text style={s.menuButtonText}>White</Text>
-            <FontAwesome5 name="chess-pawn" size={28} color="white" />
-          </TouchableOpacity>
+            <View style={s.glassInner}>
+              <View style={s.buttonRow}>
+                <Text style={s.menuButtonText}>White</Text>
+                <FontAwesome5 name="chess-pawn" size={28} color="white" />
+              </View>
+            </View>
+          </Pressable>
 
-          <TouchableOpacity
+          <Pressable
             onPress={() => handleSelectSide("black")}
-            style={s.menuButton}
-            activeOpacity={0.8}
+            style={({ pressed }) => [
+              s.menuButton,
+              pressed && s.menuButtonPressed,
+            ]}
           >
-            <Text style={s.menuButtonText}>Black</Text>
-            <FontAwesome5 name="chess-pawn" size={28} color="black" />
-          </TouchableOpacity>
+            <View style={s.glassInner}>
+              <View style={s.buttonRow}>
+                <Text style={s.menuButtonText}>Black</Text>
+                <FontAwesome5 name="chess-pawn" size={28} color="black" />
+              </View>
+            </View>
+          </Pressable>
         </View>
       </SafeAreaView>
     </GradientBackground>
@@ -60,69 +65,82 @@ export default function NewGame() {
 const s = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 24,
+    paddingTop: 40,
+    paddingBottom: 60,
+    paddingHorizontal: 40,
+    justifyContent: "space-between",
   },
 
   header: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginTop: 24,
-    marginBottom: 40,
+    alignSelf: "flex-start",
   },
 
   backButton: {
-    width: 40,
-    alignItems: "flex-start",
-    justifyContent: "center",
+    padding: 4,
   },
 
-  headerSpacer: {
-    width: 40,
+  titleBlock: {
+    alignItems: "center",
+    marginTop: 20,
   },
 
   title: {
     fontSize: 30,
     fontWeight: "700",
     color: "#F2F4F8",
-    textAlign: "center",
-  },
-
-  content: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-
-  playAs: {
-    fontSize: 24,
-    marginBottom: 28,
-    color: "white",
-    textAlign: "center",
-    fontWeight: "300",
-  },
-
-  menuButton: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    width: "78%",
-    paddingHorizontal: 28,
-    height: 60,
-    borderRadius: 18,
-    borderWidth: 1,
-    borderColor: "rgba(255, 255, 255, 0.14)",
-    backgroundColor: "rgba(255, 255, 255, 0.08)",
-    shadowColor: "#000",
-    shadowRadius: 8,
-    shadowOffset: { width: 0, height: 3 },
-    elevation: 4,
     marginBottom: 20,
   },
 
+  playAs: {
+    fontSize: 22,
+    fontWeight: "400",
+    color: "rgba(242, 244, 248, 0.75)",
+    letterSpacing: 0.3,
+  },
+
+  buttonBox: {
+    width: "100%",
+    gap: 20,
+    marginBottom: 180,
+  },
+
+  menuButton: {
+    width: "100%",
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.35)",
+    backgroundColor: "rgba(0, 0, 0, 0.25)",
+    overflow: "hidden",
+    shadowColor: "#000",
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.35,
+    elevation: 5,
+  },
+
+  menuButtonPressed: {
+    backgroundColor: "rgba(0, 0, 0, 0.4)",
+    borderColor: "rgba(255, 255, 255, 0.5)",
+  },
+
+  glassInner: {
+    paddingVertical: 18,
+    paddingHorizontal: 24,
+    borderTopWidth: 1,
+    borderTopColor: "rgba(255, 255, 255, 0.18)",
+    backgroundColor: "rgba(255, 255, 255, 0.05)",
+  },
+
+  buttonRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+
   menuButtonText: {
-    fontSize: 20,
-    fontWeight: "500",
-    color: "white",
+    color: "#F2F4F8",
+    fontSize: 22,
+    fontWeight: "600",
+    letterSpacing: 0.4,
   },
 });
