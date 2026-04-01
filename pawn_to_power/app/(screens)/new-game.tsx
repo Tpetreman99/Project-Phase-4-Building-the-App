@@ -8,35 +8,48 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import GradientBackground from "../components/GradientBackground";
 import { Entypo, FontAwesome5 } from "@expo/vector-icons";
-
 import { router } from "expo-router";
 
 export default function NewGame() {
+  const handleSelectSide = (side: "white" | "black") => {
+    router.push({
+      pathname: "/game",
+      params: { side },
+    });
+  };
+
   return (
     <GradientBackground>
       <SafeAreaView style={s.container}>
         <View style={s.header}>
-          <Pressable onPress={() => router.back()}>
-            <Entypo name="chevron-left" size={30} color="white" />
+          <Pressable onPress={() => router.back()} style={s.backButton}>
+            <Entypo name="chevron-left" size={28} color="white" />
           </Pressable>
+
           <Text style={s.title}>New Game</Text>
+
+          <View style={s.headerSpacer} />
         </View>
 
-        <View style={s.buttonBox}>
+        <View style={s.content}>
           <Text style={s.playAs}>Play as</Text>
+
           <TouchableOpacity
-            onPress={() => router.push("/game")}
+            onPress={() => handleSelectSide("white")}
             style={s.menuButton}
+            activeOpacity={0.8}
           >
             <Text style={s.menuButtonText}>White</Text>
-            <FontAwesome5 name="chess-pawn" size={30} color="white" />
+            <FontAwesome5 name="chess-pawn" size={28} color="white" />
           </TouchableOpacity>
+
           <TouchableOpacity
-            onPress={() => router.push("/game")}
+            onPress={() => handleSelectSide("black")}
             style={s.menuButton}
+            activeOpacity={0.8}
           >
             <Text style={s.menuButtonText}>Black</Text>
-            <FontAwesome5 name="chess-pawn" size={30} color="black" />
+            <FontAwesome5 name="chess-pawn" size={28} color="black" />
           </TouchableOpacity>
         </View>
       </SafeAreaView>
@@ -47,58 +60,69 @@ export default function NewGame() {
 const s = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "flex-start",
+    paddingHorizontal: 24,
   },
+
   header: {
     flexDirection: "row",
-    paddingHorizontal: 20,
-    marginTop: 40,
     alignItems: "center",
-    alignSelf: "flex-start",
-    gap: "20%",
+    justifyContent: "space-between",
+    marginTop: 24,
+    marginBottom: 40,
+  },
+
+  backButton: {
+    width: 40,
+    alignItems: "flex-start",
+    justifyContent: "center",
+  },
+
+  headerSpacer: {
+    width: 40,
   },
 
   title: {
     fontSize: 30,
-    fontWeight: 700,
+    fontWeight: "700",
     color: "#F2F4F8",
     textAlign: "center",
   },
 
-  playAs: {
-    fontSize: 24,
-    marginBottom: 20,
-    color: "white",
-    textAlign: "center",
-    fontWeight: 100,
-  },
-
-  //Navigation options styling
-  buttonBox: {
+  content: {
     flex: 1,
     justifyContent: "center",
+    alignItems: "center",
   },
+
+  playAs: {
+    fontSize: 24,
+    marginBottom: 28,
+    color: "white",
+    textAlign: "center",
+    fontWeight: "300",
+  },
+
   menuButton: {
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingHorizontal: 50,
+    alignItems: "center",
+    width: "78%",
+    paddingHorizontal: 28,
     height: 60,
-    width: "60%",
-    borderRadius: 30,
+    borderRadius: 18,
+    borderWidth: 1,
     borderColor: "rgba(255, 255, 255, 0.14)",
     backgroundColor: "rgba(255, 255, 255, 0.08)",
-    alignItems: "center",
     shadowColor: "#000",
     shadowRadius: 8,
     shadowOffset: { width: 0, height: 3 },
     elevation: 4,
-    marginBottom: 40,
+    marginBottom: 20,
   },
 
   menuButtonText: {
     fontSize: 20,
+    fontWeight: "500",
     color: "white",
-    paddingVertical: 20,
   },
 });
