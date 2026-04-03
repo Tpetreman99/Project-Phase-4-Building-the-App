@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { View, StyleSheet, Pressable, Text, Image } from "react-native";
 import { Chess, Square } from "chess.js";
+import { Entypo, AntDesign } from "@expo/vector-icons";
 import { router } from "expo-router";
 
 type MoveSquare = {
@@ -71,7 +72,11 @@ function Tile({
   );
 }
 
-export default function GameBoard() {
+export default function GameBoard({
+  setPaused,
+}: {
+  setPaused: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   const [game, setGame] = useState(() => new Chess());
   const [selectedSquare, setSelectedSquare] = useState<Square | null>(null);
   const [currentMoveIndex, setCurrentMoveIndex] = useState(0);
@@ -295,22 +300,19 @@ export default function GameBoard() {
       </View>
 
       {/* Move controls */}
-      <View style={styles.controls}>
-        <Pressable style={styles.arrowButton} onPress={handlePrevious}>
-          <Text style={styles.arrow}>‹</Text>
-        </Pressable>
+        <View style={styles.controls}>
+          <Pressable style={styles.arrowButton} onPress={handlePrevious}>
+            <Entypo name="chevron-left" size={22} color="#F2F4F8" />
+          </Pressable>
 
-        <Pressable
-          style={styles.pauseButton}
-          onPress={() => setIsPaused((prev) => !prev)}
-        >
-          <Text>{isPaused ? "❚❚" : "▶"}</Text>
-        </Pressable>
+          <Pressable style={styles.pauseButton} onPress={() => setPaused(true)}>
+            <AntDesign name="pause" size={24} color="#F2F4F8" />
+          </Pressable>
 
-        <Pressable style={styles.arrowButton} onPress={handleNext}>
-          <Text style={styles.arrow}>›</Text>
-        </Pressable>
-      </View>
+          <Pressable style={styles.arrowButton} onPress={handleNext}>
+            <Entypo name="chevron-right" size={22} color="#F2F4F8" />
+          </Pressable>
+        </View>
 
       {/* End game overlay */}
       {isCheckmate && (
@@ -368,7 +370,7 @@ const styles = StyleSheet.create({
 
   arrow: {
     color: "#fff",
-    alignSelf: "center"
+    alignSelf: "center",
   },
 
   pauseButton: {
