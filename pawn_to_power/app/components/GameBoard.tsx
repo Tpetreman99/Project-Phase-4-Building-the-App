@@ -3,6 +3,7 @@ import { View, StyleSheet, Pressable, Text, Image } from "react-native";
 import { Chess, Square } from "chess.js";
 import { Entypo, AntDesign } from "@expo/vector-icons";
 import { router } from "expo-router";
+import { useAudio } from "@/context/AudioContext";
 
 type MoveSquare = {
   from: Square;
@@ -82,7 +83,8 @@ export default function GameBoard({
   const [currentMoveIndex, setCurrentMoveIndex] = useState(0);
   const [moveHistory, setMoveHistory] = useState<VerboseMove[]>([]);
   const [isPaused, setIsPaused] = useState(true);
-
+  const { playSound } = useAudio();
+  
   // Initial config ov moves
   const initialFen = new Chess().fen();
 
@@ -188,6 +190,7 @@ export default function GameBoard({
         setMoveHistory(nextHistory);
         setCurrentMoveIndex(nextHistory.length);
         setSelectedSquare(null);
+        playSound('move');
         return;
       }
     } catch {

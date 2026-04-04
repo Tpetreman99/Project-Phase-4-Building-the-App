@@ -1,8 +1,10 @@
 import { Stack } from "expo-router";
 import { UserProvider } from ".././context/UserContext";
+import { AudioProvider } from "@/context/AudioContext";
 
 export default function RootLayout() {
   return (
+    <AudioProvider>
     <UserProvider>
       <Stack
         initialRouteName="(screens)/index"
@@ -11,5 +13,6 @@ export default function RootLayout() {
         }}
       />
     </UserProvider>
+    </AudioProvider>
   );
 }

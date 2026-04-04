@@ -3,9 +3,10 @@ import GradientBackground from "../components/GradientBackground";
 import { router } from "expo-router";
 import { useState } from "react";
 import { useUser } from "../../context/UserContext";
+import { useAudio } from "@/context/AudioContext";
 
 export default function Settings() {
-  const [musicEnabled, setMusicEnabled] = useState(false);
+  const { musicEnabled, sfxEnabled, toggleMusic, toggleSfx } = useAudio();
   const [hapticEnabled, setHapticEnabled] = useState(false);
   const { username } = useUser();
 
@@ -54,7 +55,7 @@ export default function Settings() {
             </Pressable>
 
             <Pressable
-              onPress={() => setMusicEnabled((prev) => !prev)}
+              onPress={toggleMusic}
               style={({ pressed }) => [
                 s.menuButton,
                 { borderColor: musicEnabled ? 'rgba(0, 200, 100, 0.5)' : 'rgba(255, 80, 80, 0.5)' },
@@ -68,6 +69,25 @@ export default function Settings() {
                   <Text style={s.menuButtonText}>Music</Text>
                   <View style={[s.dot, { backgroundColor: musicEnabled ? "#00c864" : "#ff5050" }]} />
                   <Text style={s.menuButtonText}>{musicEnabled ? "ON" : "OFF"}</Text>
+                </View>
+              </View>
+            </Pressable>
+
+            <Pressable
+              onPress={toggleSfx}
+              style={({ pressed }) => [
+                s.menuButton,
+                { borderColor: sfxEnabled ? 'rgba(0, 200, 100, 0.5)' : 'rgba(255, 80, 80, 0.5)' },
+                pressed && s.menuButtonPressed
+              ]}>
+              <View style={[
+                s.glassInner,
+                { backgroundColor: sfxEnabled ? 'rgba(0, 200, 100, 0.08)' : 'rgba(255, 80, 80, 0.08)' }
+              ]}>
+                <View style={s.buttonRow}>
+                  <Text style={s.menuButtonText}>SFX</Text>
+                  <View style={[s.dot, { backgroundColor: sfxEnabled ? "#00c864" : "#ff5050" }]} />
+                  <Text style={s.menuButtonText}>{sfxEnabled ? "ON" : "OFF"}</Text>
                 </View>
               </View>
             </Pressable>

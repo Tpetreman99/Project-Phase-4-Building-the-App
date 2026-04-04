@@ -1,8 +1,6 @@
 import { createContext, useRef, useContext, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {Audio} from "expo-av"
-import { Sound } from "expo-av/build/Audio";
-
+import { Audio } from "expo-av"
 
 type AudioContextType = {
   musicEnabled: boolean;
@@ -12,18 +10,18 @@ type AudioContextType = {
   playSound: (sound: 'move' | 'capture' | 'check') => void;
 };
 
-const AudioContext = createContext<AudioContextType>({ 
+const AudioContext = createContext<AudioContextType>({
   musicEnabled: false,
   sfxEnabled: false,
-  toggleMusic: () => {},
-  toggleSfx: () => {},
-  playSound: () => {},
- });
+  toggleMusic: () => { },
+  toggleSfx: () => { },
+  playSound: () => { },
+});
 
 const BG_MUSIC_FILE = require('../assets/sounds/calm-background-music.mp3')
-const SFX_FILE = require('')
+const SFX_FILE = require('../assets/sounds/chess_move.mp3')
 
-export function AudioProvider({ children}: {children: React.ReactNode}) {
+export function AudioProvider({ children }: { children: React.ReactNode }) {
 
   const [musicEnabled, setMusicEnabled] = useState(false);
   const [sfxEnabled, setSfxEnabled] = useState(false);
@@ -51,39 +49,59 @@ export function AudioProvider({ children}: {children: React.ReactNode}) {
   }, [musicEnabled]);
 
   // loads bg music in a loop
-  async function loadAndPlayMusic(){
-  const {sound} = await Audio.Sound.createAsync(
-    require('../assets/sounds/calm-background-music.mp3'),
-    {shouldPlay: true, isLooping: true, volume: 1.0}
-  );
-  bgMusic.current = sound;
-};
+  async function loadAndPlayMusic() {
+    const { sound } = await Audio.Sound.createAsync(
+      require('../assets/sounds/calm-background-music.mp3'),
+      { shouldPlay: true, isLooping: true, volume: 1.0 }
+    );
+    bgMusic.current = sound;
+  };
 
-// stops the music
-async function stopAndUnloadMusic() {
-  await bgMusic.current?.stopAsync();
-  await bgMusic.current?.unloadAsync();
-  // clear ref
-  bgMusic.current = null;
-};
+  // stops the music
+  async function stopAndUnloadMusic() {
+    await bgMusic.current?.stopAsync();
+    await bgMusic.current?.unloadAsync();
+    // clear ref
+    bgMusic.current = null;
+  };
 
 
-function toggleMusic() {
-  setMusicEnabled((prev) => {
-    const next = !prev;
-    AsyncStorage.setItem("musicEnabled", String(next));
-    return next;
-  });
+  function toggleMusic() {
+    setMusicEnabled((prev) => {
+      const next = !prev;
+      AsyncStorage.setItem("musicEnabled", String(next));
+      return next;
+    });
+  }
+
+  function toggleSfx() {
+    setSfxEnabled((prev) => {
+      const next = !prev;
+      AsyncStorage.setItem("sfxEnabled", String(next));
+      return next;
+    })
+  }
+
+  async function playSound(sound: 'move' | 'capture' | 'check') {
+    if (!sfxEnabled) return;
+    const { sound: sfx } = await Audio.Sound.createAsync(
+      SFX_FILE,
+      { shouldPlay: true, volume: 0.8 }
+    );
+    sfx.setOnPlaybackStatusUpdate((status) => {
+      if (status.isLoaded && status.didJustFinish) {
+        sfx.unloadAsync();
+
+      }
+    });
+  }
+  return (
+    <AudioContext.Provider value={{ musicEnabled, sfxEnabled, toggleMusic, toggleSfx, playSound }}>
+      {children}
+    </AudioContext.Provider>
+  )
 }
 
-function toggleSfx() {
-  setSfxEnabled((prev) => {
-    const next = !prev;
-    AsyncStorage.setItem("sfxEnabled", String(next));
-    return next;
-  })
+export function useAudio() {
+  return useContext(AudioContext);
 }
-// sfx logic
-
-}
-
