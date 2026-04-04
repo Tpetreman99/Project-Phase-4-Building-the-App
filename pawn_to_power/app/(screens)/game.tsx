@@ -5,7 +5,6 @@ import GameBoard from "../components/GameBoard";
 import { BlurView } from "expo-blur";
 import { router } from "expo-router";
 import { useState } from "react";
-import { Entypo, AntDesign } from "@expo/vector-icons";
 
 export default function Game() {
   const [paused, setPaused] = useState(false);
@@ -17,23 +16,7 @@ export default function Game() {
 
         {/* Game board */}
         <View style={s.boardWrapper}>
-          <GameBoard />
-        </View>
-
-        {/* Bottom controls */}
-        <Text style={s.frameLabel}>Frame</Text>
-        <View style={s.controls}>
-          <Pressable style={s.arrowButton}>
-            <Entypo name="chevron-left" size={22} color="#F2F4F8" />
-          </Pressable>
-
-          <Pressable style={s.pauseButton} onPress={() => setPaused(true)}>
-            <AntDesign name="pause" size={24} color="#F2F4F8" />
-          </Pressable>
-
-          <Pressable style={s.arrowButton}>
-            <Entypo name="chevron-right" size={22} color="#F2F4F8" />
-          </Pressable>
+          <GameBoard setPaused={setPaused}/>
         </View>
 
         {/* Pause overlay */}
