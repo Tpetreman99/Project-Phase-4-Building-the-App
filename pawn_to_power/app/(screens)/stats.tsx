@@ -19,7 +19,11 @@ export default function Stats() {
   return (
     <GradientBackground>
       <SafeAreaView style={s.container}>
-
+        <View>
+          <Pressable onPress={() => router.back()} style={s.backButton}>
+            <Entypo name="chevron-left" size={30} color="white" />
+          </Pressable>
+        </View>
         {/* Header */}
         <View style={s.header}>
           <Text style={s.title}>Stats</Text>
@@ -61,10 +65,10 @@ const s = StyleSheet.create({
 
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    paddingHorizontal: 30,
-    gap: 50,
+    paddingTop: 40,
+    paddingBottom: 200,
+    paddingHorizontal: 40,
+    justifyContent: "space-between",
   },
 
   header: {
@@ -74,14 +78,8 @@ const s = StyleSheet.create({
   },
 
   backButton: {
-    width: 36,
-    height: 36,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.25)',
-    backgroundColor: 'rgba(0, 0, 0, 0.25)',
-    justifyContent: 'center',
-    alignItems: 'center',
+    padding: 4,
+    alignSelf: "flex-start",
   },
 
   title: {

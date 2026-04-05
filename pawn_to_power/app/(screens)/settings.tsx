@@ -4,6 +4,8 @@ import { router } from "expo-router";
 import { useState } from "react";
 import { useUser } from "../../context/UserContext";
 import { useAudio } from "@/context/AudioContext";
+import { Entypo } from "@expo/vector-icons";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Settings() {
   const { musicEnabled, sfxEnabled, toggleMusic, toggleSfx } = useAudio();
@@ -12,6 +14,12 @@ export default function Settings() {
 
   return (
     <GradientBackground>
+      <SafeAreaView style={s.safeView}>
+      <View style={s.header}>
+          <Pressable onPress={() => router.back()} style={s.backButton}>
+            <Entypo name="chevron-left" size={30} color="white" />
+          </Pressable>
+        </View>
       <View style={s.container}>
 
         <View style={s.titleBlock}>
@@ -94,6 +102,7 @@ export default function Settings() {
           </View>
         </View>
       </View>
+      </SafeAreaView>
     </GradientBackground>
   );
 }
@@ -107,6 +116,14 @@ const s = StyleSheet.create({
     paddingTop: 150,
     paddingBottom: 60,
     paddingHorizontal: 40,
+  },
+
+  safeView: {
+    flex: 1,
+    paddingTop: 40,
+    paddingBottom: 60,
+    paddingHorizontal: 40,
+    justifyContent: "space-between",
   },
 
   titleBlock: {
@@ -216,6 +233,14 @@ const s = StyleSheet.create({
     fontSize: 20,
     fontWeight: '600',
     letterSpacing: 0.4,
+  },
+
+  header: {
+    alignSelf: "flex-start",
+  },
+
+  backButton: {
+    padding: 4,
   },
 
 });

@@ -3,6 +3,8 @@ import GradientBackground from "../components/GradientBackground";
 import { router } from "expo-router";
 import { useState } from "react";
 import { useUser } from "../../context/UserContext";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { Entypo } from "@expo/vector-icons";
 
 export default function ChangeUsername() {
   const [username, setUsername] = useState("");
@@ -17,8 +19,13 @@ export default function ChangeUsername() {
 
   return (
     <GradientBackground>
+      <SafeAreaView style={s.pageContainer}>
+      <View style={s.header}>
+          <Pressable onPress={() => router.back()} style={s.backButton}>
+            <Entypo name="chevron-left" size={30} color="white" />
+          </Pressable>
+        </View>
       <View style={s.container}>
-
         <View style={s.titleBlock}>
           <Text style={s.TitleScreen}>Change Username</Text>
         </View>
@@ -26,7 +33,6 @@ export default function ChangeUsername() {
         <View style={s.content}>
           {!submitted ? (
             <>
-              <Text style={s.question}>What's your new username going to be?</Text>
 
               <TextInput
                 style={s.input}
@@ -34,7 +40,6 @@ export default function ChangeUsername() {
                 placeholderTextColor="rgba(242, 244, 248, 0.4)"
                 value={username}
                 onChangeText={setUsername}
-                autoFocus
                 maxLength={20}
               />
 
@@ -48,12 +53,8 @@ export default function ChangeUsername() {
             <Text style={s.successText}>Username updated!</Text>
           )}
         </View>
-
-        <Pressable style={s.backButton} onPress={() => router.back()}>
-          <Text style={s.backButtonText}>← Back</Text>
-        </Pressable>
-
       </View>
+      </SafeAreaView>
     </GradientBackground>
   );
 }
@@ -63,14 +64,30 @@ const s = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "space-between",
-    paddingTop: 150,
-    paddingBottom: 180,
+    paddingTop: 100,
+    paddingBottom: 300,
     paddingHorizontal: 30,
+  },
+
+  pageContainer: {
+    flex: 1,
+    paddingTop: 40,
+    paddingBottom: 60,
+    paddingHorizontal: 40,
+    justifyContent: "space-between",
+  },
+
+  header: {
+    alignSelf: "flex-start",
+  },
+
+  backButton: {
+    padding: 4,
   },
 
   titleBlock: {
     alignItems: "center",
-    marginTop: 12,
+    marginTop: 2,
   },
 
   TitleScreen: {
@@ -133,10 +150,6 @@ const s = StyleSheet.create({
     fontWeight: "700",
     color: "#F2F4F8",
     textAlign: "center",
-  },
-
-  backButton: {
-    alignSelf: "flex-start",
   },
 
   backButtonText: {

@@ -18,7 +18,7 @@ const AudioContext = createContext<AudioContextType>({
   playSound: () => { },
 });
 
-const BG_MUSIC_FILE = require('../assets/sounds/calm-background-music.mp3')
+const BG_MUSIC_FILE = require('../assets/sounds/minecraft_bg.mp3')
 const SFX_FILE = require('../assets/sounds/chess_move.mp3')
 
 export function AudioProvider({ children }: { children: React.ReactNode }) {
@@ -51,7 +51,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
   // loads bg music in a loop
   async function loadAndPlayMusic() {
     const { sound } = await Audio.Sound.createAsync(
-      require('../assets/sounds/calm-background-music.mp3'),
+      require('../assets/sounds/minecraft_bg.mp3'),
       { shouldPlay: true, isLooping: true, volume: 1.0 }
     );
     bgMusic.current = sound;
