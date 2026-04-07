@@ -37,9 +37,18 @@ export default function Game() {
                     <Text style={s.pauseMenuButtonText}>Resume Game</Text>
                   </View>
                 </Pressable>
+        {/* return home button */}
+                <Pressable
+                  style={({ pressed }) => [s.pauseMenuButton, pressed && s.pauseMenuButtonPressed]}
+                  onPress={() => {setPaused(false); router.push('/');}}>
+                  <View style={s.pauseGlassInner}>
+                    <Text style={s.pauseMenuButtonText}>Exit Game</Text>
+                  </View>
+                </Pressable>
 
                 <Pressable
-                  style={({ pressed }) => [s.pauseMenuButton, pressed && s.pauseMenuButtonPressed]}>
+                  style={({ pressed }) => [s.pauseMenuButton, pressed && s.pauseMenuButtonPressed]}
+                  onPress={() => { setPaused(false); router.push('/tips'); }}>
                   <View style={s.pauseGlassInner}>
                     <Text style={s.pauseMenuButtonText}>Tips</Text>
                   </View>

@@ -15,93 +15,93 @@ export default function Settings() {
   return (
     <GradientBackground>
       <SafeAreaView style={s.safeView}>
-      <View style={s.header}>
+        <View style={s.header}>
           <Pressable onPress={() => router.back()} style={s.backButton}>
             <Entypo name="chevron-left" size={30} color="white" />
           </Pressable>
         </View>
-      <View style={s.container}>
+        <View style={s.container}>
 
-        <View style={s.titleBlock}>
-          <Text style={s.TitleScreen}>Settings</Text>
-        </View>
+          <View style={s.titleBlock}>
+            <Text style={s.TitleScreen}>Settings</Text>
+          </View>
 
-        {/* Username section */}
-        <View style={s.section}>
-          <Text style={s.usernameLabel}>Username:</Text>
-          <Text style={s.usernameValue}>{username ? username : "Player"}</Text>
-          <Pressable
-            onPress={() => router.push('/change-username')}
-            style={({ pressed }) => [s.menuButton, pressed && s.menuButtonPressed]}>
-            <View style={s.glassInner}>
-              <Text style={s.menuButtonText}>Change Username</Text>
-            </View>
-          </Pressable>
-        </View>
-
-        {/* Preferences section */}
-        <View style={s.section}>
-          <Text style={s.sectionTitle}>Preferences</Text>
-          <View style={s.buttonSelection}>
+          {/* Username section */}
+          <View style={s.section}>
+            <Text style={s.usernameLabel}>Username:</Text>
+            <Text style={s.usernameValue}>{username ? username : "Player"}</Text>
             <Pressable
-              onPress={() => setHapticEnabled((prev) => !prev)}
-              style={({ pressed }) => [
-                s.menuButton,
-                { borderColor: hapticEnabled ? 'rgba(0, 200, 100, 0.5)' : 'rgba(255, 80, 80, 0.5)' },
-                pressed && s.menuButtonPressed
-              ]}>
-              <View style={[
-                s.glassInner,
-                { backgroundColor: hapticEnabled ? 'rgba(0, 200, 100, 0.08)' : 'rgba(255, 80, 80, 0.08)' }
-              ]}>
-                <View style={s.buttonRow}>
-                  <Text style={s.menuButtonText}>Haptic</Text>
-                  <View style={[s.dot, { backgroundColor: hapticEnabled ? "#00c864" : "#ff5050" }]} />
-                  <Text style={s.menuButtonText}>{hapticEnabled ? "ON" : "OFF"}</Text>
-                </View>
-              </View>
-            </Pressable>
-
-            <Pressable
-              onPress={toggleMusic}
-              style={({ pressed }) => [
-                s.menuButton,
-                { borderColor: musicEnabled ? 'rgba(0, 200, 100, 0.5)' : 'rgba(255, 80, 80, 0.5)' },
-                pressed && s.menuButtonPressed
-              ]}>
-              <View style={[
-                s.glassInner,
-                { backgroundColor: musicEnabled ? 'rgba(0, 200, 100, 0.08)' : 'rgba(255, 80, 80, 0.08)' }
-              ]}>
-                <View style={s.buttonRow}>
-                  <Text style={s.menuButtonText}>Music</Text>
-                  <View style={[s.dot, { backgroundColor: musicEnabled ? "#00c864" : "#ff5050" }]} />
-                  <Text style={s.menuButtonText}>{musicEnabled ? "ON" : "OFF"}</Text>
-                </View>
-              </View>
-            </Pressable>
-
-            <Pressable
-              onPress={toggleSfx}
-              style={({ pressed }) => [
-                s.menuButton,
-                { borderColor: sfxEnabled ? 'rgba(0, 200, 100, 0.5)' : 'rgba(255, 80, 80, 0.5)' },
-                pressed && s.menuButtonPressed
-              ]}>
-              <View style={[
-                s.glassInner,
-                { backgroundColor: sfxEnabled ? 'rgba(0, 200, 100, 0.08)' : 'rgba(255, 80, 80, 0.08)' }
-              ]}>
-                <View style={s.buttonRow}>
-                  <Text style={s.menuButtonText}>SFX</Text>
-                  <View style={[s.dot, { backgroundColor: sfxEnabled ? "#00c864" : "#ff5050" }]} />
-                  <Text style={s.menuButtonText}>{sfxEnabled ? "ON" : "OFF"}</Text>
-                </View>
+              onPress={() => router.push('/change-username')}
+              style={({ pressed }) => [s.menuButton, pressed && s.menuButtonPressed]}>
+              <View style={s.glassInner}>
+                <Text style={s.menuButtonText}>Change Username</Text>
               </View>
             </Pressable>
           </View>
+
+          {/* Preferences section */}
+          <View style={s.section}>
+            <Text style={s.sectionTitle}>Preferences</Text>
+            <View style={s.buttonSelection}>
+              <Pressable
+                onPress={() => setHapticEnabled((prev) => !prev)}
+                style={({ pressed }) => [
+                  s.menuButton,
+                  { borderColor: hapticEnabled ? 'rgba(0, 200, 100, 0.5)' : 'rgba(255, 80, 80, 0.5)' },
+                  pressed && s.menuButtonPressed
+                ]}>
+                <View style={[
+                  s.glassInner,
+                  { backgroundColor: hapticEnabled ? 'rgba(0, 200, 100, 0.08)' : 'rgba(255, 80, 80, 0.08)' }
+                ]}>
+                  <View style={s.buttonRow}>
+                    <Text style={s.menuButtonText}>Haptic</Text>
+                    <View style={[s.dot, { backgroundColor: hapticEnabled ? "#00c864" : "#ff5050" }]} />
+                    <Text style={s.menuButtonText}>{hapticEnabled ? "ON" : "OFF"}</Text>
+                  </View>
+                </View>
+              </Pressable>
+
+              <Pressable
+                onPress={toggleMusic}
+                style={({ pressed }) => [
+                  s.menuButton,
+                  { borderColor: musicEnabled ? 'rgba(0, 200, 100, 0.5)' : 'rgba(255, 80, 80, 0.5)' },
+                  pressed && s.menuButtonPressed
+                ]}>
+                <View style={[
+                  s.glassInner,
+                  { backgroundColor: musicEnabled ? 'rgba(0, 200, 100, 0.08)' : 'rgba(255, 80, 80, 0.08)' }
+                ]}>
+                  <View style={s.buttonRow}>
+                    <Text style={s.menuButtonText}>Music</Text>
+                    <View style={[s.dot, { backgroundColor: musicEnabled ? "#00c864" : "#ff5050" }]} />
+                    <Text style={s.menuButtonText}>{musicEnabled ? "ON" : "OFF"}</Text>
+                  </View>
+                </View>
+              </Pressable>
+
+              <Pressable
+                onPress={toggleSfx}
+                style={({ pressed }) => [
+                  s.menuButton,
+                  { borderColor: sfxEnabled ? 'rgba(0, 200, 100, 0.5)' : 'rgba(255, 80, 80, 0.5)' },
+                  pressed && s.menuButtonPressed
+                ]}>
+                <View style={[
+                  s.glassInner,
+                  { backgroundColor: sfxEnabled ? 'rgba(0, 200, 100, 0.08)' : 'rgba(255, 80, 80, 0.08)' }
+                ]}>
+                  <View style={s.buttonRow}>
+                    <Text style={s.menuButtonText}>SFX</Text>
+                    <View style={[s.dot, { backgroundColor: sfxEnabled ? "#00c864" : "#ff5050" }]} />
+                    <Text style={s.menuButtonText}>{sfxEnabled ? "ON" : "OFF"}</Text>
+                  </View>
+                </View>
+              </Pressable>
+            </View>
+          </View>
         </View>
-      </View>
       </SafeAreaView>
     </GradientBackground>
   );

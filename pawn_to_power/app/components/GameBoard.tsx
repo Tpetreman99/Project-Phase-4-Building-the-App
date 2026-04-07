@@ -231,7 +231,7 @@ export default function GameBoard({
       {/* Turn tracker */}
       {!isGameOver && (
         <Text style={styles.statusText}>
-          Turn: {displayGame.turn() === "w" ? "White" : "Black"}
+          {displayGame.turn() === "w" ? "White" : "Black"} Player Turn
         </Text>
       )}
 

@@ -21,15 +21,15 @@ export default function Index() {
         </Text>
 
         <View style={s.buttonSelection}>
-          <Pressable onPress={() => router.push('/new-game')} style={({ pressed }) => [s.menuButton, pressed && s.menuButtonPressed]}>
+          <Pressable onPress={() => router.push('/game')} style={({ pressed }) => [s.menuButton, pressed && s.menuButtonPressed]}>
             <View style={s.glassInner}>
               <Text style={s.menuButtonText}>New Game</Text>
             </View>
           </Pressable>
 
-          <Pressable onPress={() => router.push('/game')} style={({ pressed }) => [s.menuButton, pressed && s.menuButtonPressed]}>
+          <Pressable onPress={() => router.push('/tips')} style={({ pressed }) => [s.menuButton, pressed && s.menuButtonPressed]}>
             <View style={s.glassInner}>
-              <Text style={s.menuButtonText}>Resume Game</Text>
+              <Text style={s.menuButtonText}>Tips</Text>
             </View>
           </Pressable>
 
