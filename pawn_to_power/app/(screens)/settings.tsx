@@ -9,7 +9,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Settings() {
   const { musicEnabled, sfxEnabled, toggleMusic, toggleSfx } = useAudio();
-  const [hapticEnabled, setHapticEnabled] = useState(false);
   const { username } = useUser();
 
   return (
@@ -43,25 +42,6 @@ export default function Settings() {
           <View style={s.section}>
             <Text style={s.sectionTitle}>Preferences</Text>
             <View style={s.buttonSelection}>
-              <Pressable
-                onPress={() => setHapticEnabled((prev) => !prev)}
-                style={({ pressed }) => [
-                  s.menuButton,
-                  { borderColor: hapticEnabled ? 'rgba(0, 200, 100, 0.5)' : 'rgba(255, 80, 80, 0.5)' },
-                  pressed && s.menuButtonPressed
-                ]}>
-                <View style={[
-                  s.glassInner,
-                  { backgroundColor: hapticEnabled ? 'rgba(0, 200, 100, 0.08)' : 'rgba(255, 80, 80, 0.08)' }
-                ]}>
-                  <View style={s.buttonRow}>
-                    <Text style={s.menuButtonText}>Haptic</Text>
-                    <View style={[s.dot, { backgroundColor: hapticEnabled ? "#00c864" : "#ff5050" }]} />
-                    <Text style={s.menuButtonText}>{hapticEnabled ? "ON" : "OFF"}</Text>
-                  </View>
-                </View>
-              </Pressable>
-
               <Pressable
                 onPress={toggleMusic}
                 style={({ pressed }) => [
