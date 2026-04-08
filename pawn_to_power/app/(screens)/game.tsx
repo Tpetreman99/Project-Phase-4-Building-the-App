@@ -5,58 +5,106 @@ import GameBoard from "../components/GameBoard";
 import { BlurView } from "expo-blur";
 import { router } from "expo-router";
 import { useState } from "react";
+import { useStats } from "../../context/StatsContext";
 
 export default function Game() {
   const [paused, setPaused] = useState(false);
+  const { recordGame } = useStats();
+
   const Blur = BlurView as any;
 
   return (
     <GradientBackground>
       <SafeAreaView style={s.container}>
-
         {/* Game board */}
         <View style={s.boardWrapper}>
-          <GameBoard setPaused={setPaused}/>
+          <GameBoard setPaused={setPaused} />
         </View>
 
         {/* Pause overlay */}
         {paused && (
           <View style={s.overlay}>
             <Blur intensity={60} tint="dark" style={s.blurFill} />
-            {/* grey desaturation layer */}
             <View style={s.greyWash} />
 
             <View style={s.pauseMenu}>
               <Text style={s.pauseTitle}>Pause</Text>
 
               <View style={s.pauseButtons}>
+                {/* Resume */}
                 <Pressable
-                  style={({ pressed }) => [s.pauseMenuButton, pressed && s.pauseMenuButtonPressed]}
-                  onPress={() => setPaused(false)}>
+                  style={({ pressed }) => [
+                    s.pauseMenuButton,
+                    pressed && s.pauseMenuButtonPressed,
+                  ]}
+                  onPress={() => setPaused(false)}
+                >
                   <View style={s.pauseGlassInner}>
                     <Text style={s.pauseMenuButtonText}>Resume Game</Text>
                   </View>
                 </Pressable>
-        {/* return home button */}
+
+                {/* Simulate Win */}
                 <Pressable
-                  style={({ pressed }) => [s.pauseMenuButton, pressed && s.pauseMenuButtonPressed]}
-                  onPress={() => {setPaused(false); router.push('/');}}>
+                  style={({ pressed }) => [
+                    s.pauseMenuButton,
+                    pressed && s.pauseMenuButtonPressed,
+                  ]}
+                  onPress={() => {
+                    recordGame("win", 5);
+                    setPaused(false);
+                    router.push("/stats");
+                  }}
+                >
+                  <View style={s.pauseGlassInner}>
+                    <Text style={s.pauseMenuButtonText}>Simulate Win</Text>
+                  </View>
+                </Pressable>
+
+                {/* Simulate Loss */}
+                <Pressable
+                  style={({ pressed }) => [
+                    s.pauseMenuButton,
+                    pressed && s.pauseMenuButtonPressed,
+                  ]}
+                  onPress={() => {
+                    recordGame("loss", 5);
+                    setPaused(false);
+                    router.push("/stats");
+                  }}
+                >
+                  <View style={s.pauseGlassInner}>
+                    <Text style={s.pauseMenuButtonText}>Simulate Loss</Text>
+                  </View>
+                </Pressable>
+
+                {/* Exit */}
+                <Pressable
+                  style={({ pressed }) => [
+                    s.pauseMenuButton,
+                    pressed && s.pauseMenuButtonPressed,
+                  ]}
+                  onPress={() => {
+                    setPaused(false);
+                    router.push("/");
+                  }}
+                >
                   <View style={s.pauseGlassInner}>
                     <Text style={s.pauseMenuButtonText}>Exit Game</Text>
                   </View>
                 </Pressable>
 
+                {/* Settings */}
                 <Pressable
-                  style={({ pressed }) => [s.pauseMenuButton, pressed && s.pauseMenuButtonPressed]}
-                  onPress={() => { setPaused(false); router.push('/tips'); }}>
-                  <View style={s.pauseGlassInner}>
-                    <Text style={s.pauseMenuButtonText}>Tips</Text>
-                  </View>
-                </Pressable>
-
-                <Pressable
-                  style={({ pressed }) => [s.pauseMenuButton, pressed && s.pauseMenuButtonPressed]}
-                  onPress={() => { setPaused(false); router.push('/settings'); }}>
+                  style={({ pressed }) => [
+                    s.pauseMenuButton,
+                    pressed && s.pauseMenuButtonPressed,
+                  ]}
+                  onPress={() => {
+                    setPaused(false);
+                    router.push("/settings");
+                  }}
+                >
                   <View style={s.pauseGlassInner}>
                     <Text style={s.pauseMenuButtonText}>Settings</Text>
                   </View>
@@ -65,7 +113,6 @@ export default function Game() {
             </View>
           </View>
         )}
-
       </SafeAreaView>
     </GradientBackground>
   );
@@ -79,57 +126,14 @@ const s = StyleSheet.create({
   },
 
   boardWrapper: {
-    width: '100%',
-    alignItems: 'center',
+    width: "100%",
+    alignItems: "center",
   },
 
-  frameLabel: {
-    color: 'rgba(242, 244, 248, 0.5)',
-    fontSize: 16,
-    fontWeight: '500',
-    marginTop: 20,
-    marginBottom: 12,
-    letterSpacing: 0.5,
-  },
-
-  // Bottom controls bar
-  controls: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 16,
-    marginBottom: 10,
-  },
-
-  arrowButton: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: 'rgba(0, 0, 0, 0.45)',
-    borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.12)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-
-  pauseButton: {
-    width: 58,
-    height: 58,
-    borderRadius: 29,
-    backgroundColor: '#2ecc8a',
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowColor: '#2ecc8a',
-    shadowRadius: 12,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.5,
-    elevation: 6,
-  },
-
-  // Pause overlay
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
 
   blurFill: {
@@ -138,59 +142,48 @@ const s = StyleSheet.create({
 
   greyWash: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(30, 30, 30, 0.6)',
+    backgroundColor: "rgba(30, 30, 30, 0.6)",
   },
+
   pauseMenu: {
-    width: '75%',
-    alignItems: 'center',
+    width: "75%",
+    alignItems: "center",
     gap: 32,
   },
 
   pauseTitle: {
     fontSize: 32,
-    fontWeight: '700',
-    color: '#F2F4F8',
-    letterSpacing: 0.5,
+    fontWeight: "700",
+    color: "#F2F4F8",
   },
 
   pauseButtons: {
-    width: '100%',
+    width: "100%",
     gap: 10,
   },
 
   pauseMenuButton: {
-    width: '100%',
+    width: "100%",
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.3)',
-    backgroundColor: 'rgba(0, 0, 0, 0.2)',
-    overflow: 'hidden',
-    shadowColor: '#000',
-    shadowRadius: 8,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    elevation: 5,
+    borderColor: "rgba(255,255,255,0.3)",
+    backgroundColor: "rgba(0,0,0,0.2)",
+    overflow: "hidden",
   },
 
   pauseMenuButtonPressed: {
-    backgroundColor: 'rgba(0, 0, 0, 0.4)',
-    borderColor: 'rgba(255, 255, 255, 0.5)',
+    backgroundColor: "rgba(0,0,0,0.4)",
   },
 
   pauseGlassInner: {
     paddingVertical: 14,
     paddingHorizontal: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderTopWidth: 1,
-    borderTopColor: 'rgba(255, 255, 255, 0.15)',
-    backgroundColor: 'rgba(255, 255, 255, 0.06)',
+    alignItems: "center",
   },
 
   pauseMenuButtonText: {
-    color: '#F2F4F8',
+    color: "#F2F4F8",
     fontSize: 18,
-    fontWeight: '600',
-    letterSpacing: 0.4,
+    fontWeight: "600",
   },
 });
