@@ -9,7 +9,6 @@ import { useStats } from "../../context/StatsContext";
 
 export default function Game() {
   const [paused, setPaused] = useState(false);
-  const { recordGame } = useStats();
 
   const Blur = BlurView as any;
 
@@ -41,40 +40,6 @@ export default function Game() {
                 >
                   <View style={s.pauseGlassInner}>
                     <Text style={s.pauseMenuButtonText}>Resume Game</Text>
-                  </View>
-                </Pressable>
-
-                {/* Simulate Win */}
-                <Pressable
-                  style={({ pressed }) => [
-                    s.pauseMenuButton,
-                    pressed && s.pauseMenuButtonPressed,
-                  ]}
-                  onPress={() => {
-                    recordGame("win", 5);
-                    setPaused(false);
-                    router.push("/stats");
-                  }}
-                >
-                  <View style={s.pauseGlassInner}>
-                    <Text style={s.pauseMenuButtonText}>Simulate Win</Text>
-                  </View>
-                </Pressable>
-
-                {/* Simulate Loss */}
-                <Pressable
-                  style={({ pressed }) => [
-                    s.pauseMenuButton,
-                    pressed && s.pauseMenuButtonPressed,
-                  ]}
-                  onPress={() => {
-                    recordGame("loss", 5);
-                    setPaused(false);
-                    router.push("/stats");
-                  }}
-                >
-                  <View style={s.pauseGlassInner}>
-                    <Text style={s.pauseMenuButtonText}>Simulate Loss</Text>
                   </View>
                 </Pressable>
 

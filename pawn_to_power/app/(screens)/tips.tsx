@@ -42,7 +42,7 @@ export default function Tips() {
 
           <View style={s.card}>
             <Text style={s.title}>Create a plan</Text>
-            <Text style={s.cardDescription}>Don't just react — ask yourself "what is my opponent's threat?" then form your own plan. Even a flawed plan beats no plan at all.</Text>
+            <Text style={s.cardDescription}>Dont just react — ask yourself "what is my opponents threat?" then form your own plan. Even a flawed plan beats no plan at all.</Text>
           </View>
 
           <View style={s.card}>
@@ -102,7 +102,7 @@ const s = StyleSheet.create({
   },
 
   sectionLabel: {
-    color: '2cc295',
+    color: '#2cc295',
     fontSize: 20,
     padding: 10,
     

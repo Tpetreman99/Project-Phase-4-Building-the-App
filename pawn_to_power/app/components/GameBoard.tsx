@@ -27,7 +27,7 @@ type VerboseMove = {
 const FILES = ["a", "b", "c", "d", "e", "f", "g", "h"] as const;
 const RANKS = [8, 7, 6, 5, 4, 3, 2, 1] as const;
 
-const PIECE_SYMBOLS: Record<string, string> = {
+const PIECE_SYMBOLS: Record<string, import("react-native").ImageSourcePropType> = {
   wp: require("../../assets/pieces/wp.png"),
   wn: require("../../assets/pieces/wn.png"),
   wb: require("../../assets/pieces/wb.png"),

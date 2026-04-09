@@ -7,6 +7,7 @@ import { useStats } from "../../context/StatsContext";
 
 export default function Stats() {
   const { stats } = useStats();
+  const { recordGame } = useStats();
 
   const winRate =
     stats.gamesPlayed > 0
@@ -43,7 +44,19 @@ export default function Stats() {
             <StatCard label="Win Rate" value={winRate} highlight />
           </View>
         </View>
+        {/* Simulate Win */}
+        <Pressable onPress={() => { recordGame("win", 5); }}>
+          <View>
+            <Text>Simulate Win</Text>
+          </View>
+        </Pressable>
 
+        {/* Simulate Loss */}
+        <Pressable onPress={() => { recordGame("loss", 5); }}>
+          <View>
+            <Text>Simulate Loss</Text>
+          </View>
+        </Pressable>
       </SafeAreaView>
     </GradientBackground>
   );
